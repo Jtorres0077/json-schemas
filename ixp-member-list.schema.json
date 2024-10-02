@@ -232,257 +232,223 @@
         }
     },
 
-    "member_list": {
-      "title": "IXP Member List",
-      "description": "A list of schemas representing IXP members",
-      "type": "array",
-      "items":
-        {
-          "description": "A single member entry",
-          "type": "object",
-          "required": ["asnum","connection_list"],
-          "properties": {
-
-            "asnum": {
-              "description": "AS number of the network",
-              "type": "integer"
-            },
-            "member_type": {
-              "description": "Participant type: peering, ixp or other",
-              "type": "string",
-              "enum": ["peering","ixp","other"]
-            },
-            "name": {
-              "description": "Name of the network",
-              "type": "string"
-            },
-            "url": {
-              "description": "URL to website of the network",
-              "type": "string",
-              "format": "uri"
-            },
-            "peering_policy": {
-              "description": "Peering policy of the network",
-              "type": "string"
-            },
-            "peering_policy_url": {
-              "description": "URL to the network's peering policy",
-              "type": "string",
-              "format": "uri"
-            },
-            "member_since": {
-              "description": "Date when the network joined the IXP",
-              "type": "string",
-              "format": "date-time"
-            },
-            "contact_email": {
-              "description": "List of contact email addresses of the network",
-              "type": "array",
-              "items":
-                {
-                  "type": "string",
-                  "format" : "email"
+    "member_list": [
+      {
+        "asnum": 269938,
+        "member_type": "peering",
+        "name": "ADN Telecom",
+        "peering_policy": "Open",
+        "connection_list": [
+          {
+            "ixp_id": 1406,
+            "vlan_list": [
+              {
+                "vlan_id": 1,
+                "ipv4": {
+                  "address": "190.83.60.0/24"
                 }
-            },
-            "contact_phone": {
-              "description": "List of contact phone numbers of the network",
-              "type": "array",
-              "items":
-                {
-                  "type": "string"
+              },
+              {
+                "vlan_id": 2,
+                "ipv4": {
+                  "address": "190.83.61.0/24"
                 }
-            },
-            "contact_hours": {
-              "description": "Network contact hours, eg. 24/7, 8/5, etc",
-              "type": "string"
-            },
-
-            "connection_list": {
-              "description": "List of connections of the network at the IXP",
-              "type": "array",
-              "items":
-                {
-                  "description": "A single connection entry",
-                  "type": "object",
-                  "required": ["ixp_id"],
-                  "properties": {
-
-                    "ixp_id": {
-                      "description": "IXP numeric identifier, persistent value free to set by the IXP, referencing the same ID as used in the ixp_list element",
-                      "type": "integer"
-                    },
-                    "state": {
-                      "description": "State of the connection",
-                      "type": "string"
-                    },
-                    "connected_since": {
-                      "description": "Date when the connection was activated",
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "if_list": {
-                      "description": "List of interfaces making up the connection",
-                      "type": "array",
-                      "items":
-                        {
-                          "description": "A single interface entry",
-                          "type": "object",
-                          "properties": {
-
-                            "switch_id": {
-                              "description": "Switch ID where the interface or LAG is connected, persistent value free to set by the IXP",
-                              "type": "integer"
-                            },
-                            "if_speed": {
-                              "description": "Speed of the interface or LAG in Mb, i.e. 10G = 10000",
-                              "type": "integer"
-                            },
-                            "if_type": {
-                              "description": "Type of the interface or LAG",
-                              "type": "string"
-                            }
-                          }
-                        }
-
-
-                    },
-                    "vlan_list": {
-                      "type": "array",
-                      "items":
-                        {
-                          "description": "A single VLAN entry",
-                          "type": "object",
-                          "properties": {
-
-                            "vlan_id": {
-                              "description": "The VLAN ID this connection is placed in, persistent value free to set by the IXP",
-                              "type": "integer"
-                            },
-                            "ipv4": {
-                              "description": "The network's IPv4 address details in this VLAN",
-                              "type": "object",
-                              "properties": {
-
-                                "address": {
-                                  "description": "The IPv4 address",
-                                  "type": "string",
-                                  "format": "ipv4"
-                                },
-                                "as_macro": {
-                                  "description": "The IPv4 AS-MACRO, if applicable",
-                                  "type": "string"
-                                },
-                                "max_prefix": {
-                                  "description": "The max number of prefixes on this connection for IPv4",
-                                  "type": "integer"
-                                },
-                                "routeserver": {
-                                  "description": "Does this IPv4 address connect to the IXP routeserver",
-                                  "type": "boolean"
-                                },
-                                "mac_addresses": {
-                                  "description": "MAC address of the member interface (format: lowercase string xx:xx:xx:xx:xx:xx)",
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "services": {
-                                  "description": "Array of IX operated service(s) available from this connection.",
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "type": {
-                                        "description": "The IX operated service available from this connection.",
-                                        "type": "string",
-                                        "enum": ["ixroutecollector", "ixrouteserver"]
-                                      },
-                                      "os": {
-                                        "description": "Free text field to indicate the operating system of the route server for informational purposes.",
-                                        "type": "string"
-                                      },
-                                      "os_version": {
-                                        "description": "Free text field to indicate the operating system version of the route server for informational purposes. Should not be present without os.",
-                                        "type": "string"
-                                      },
-                                      "daemon": {
-                                          "description": "Free text field to indicate the BGP software daemon that provides the route server for informational purposes.",
-                                        "type": "string"
-                                      },
-                                      "daemon_version": {
-                                          "description": "Free text field to indicate the BGP software daemon version that provides the route server for informational purposes. Should not be present without daemon.",
-                                        "type": "string"
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            "ipv6": {
-                              "description": "The network's IPv6 address details in this VLAN",
-                              "type": "object",
-                              "properties": {
-
-                                "address": {
-                                  "description": "The IPv6 address",
-                                  "type": "string",
-                                  "format": "ipv6"
-                                },
-                                "as_macro": {
-                                  "description": "The IPv6 AS-MACRO, if applicable",
-                                  "type": "string"
-                                },
-                                "max_prefix": {
-                                  "description": "The max number of prefixes on this connection for IPv6",
-                                  "type": "integer"
-                                },
-                                "routeserver": {
-                                  "description": "Does this IPv6 address connect to the IXP routeserver",
-                                  "type": "boolean"
-                                },
-                                "mac_addresses": {
-                                  "description": "MAC address of the member interface (format: lowercase string xx:xx:xx:xx:xx:xx)",
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "services": {
-                                  "description": "Array of IX operated service(s) available from this connection.",
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "type": {
-                                        "description": "The IX operated service available from this connection.",
-                                        "type": "string",
-                                        "enum": ["ixroutecollector", "ixrouteserver"]
-                                      },
-                                      "os": {
-                                        "description": "Free text field to indicate the operating system of the route server for informational purposes.",
-                                        "type": "string"
-                                      },
-                                      "os_version": {
-                                        "description": "Free text field to indicate the operating system version of the route server for informational purposes. Should not be present without os.",
-                                        "type": "string"
-                                      },
-                                      "daemon": {
-                                          "description": "Free text field to indicate the BGP software daemon that provides the route server for informational purposes.",
-                                        "type": "string"
-                                      },
-                                      "daemon_version": {
-                                          "description": "Free text field to indicate the BGP software daemon version that provides the route server for informational purposes. Should not be present without daemon.",
-                                        "type": "string"
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-
+              },
+              {
+                "vlan_id": 3,
+                "ipv4": {
+                  "address": "209.45.18.0/24"
+                },
+                "ipv6": {
+                  "address": "2803:6ae0::/32"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "asnum": 271842,
+        "member_type": "peering",
+        "name": "WASI",
+        "peering_policy": "Open",
+        "connection_list": [
+          {
+            "ixp_id": 1406,
+            "vlan_list": [
+              {
+                "vlan_id": 1,
+                "ipv4": {
+                  "address": "168.194.170.0/24"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "asnum": 269862,
+        "member_type": "peering",
+        "name": "Net Fiber",
+        "peering_policy": "Open",
+        "connection_list": [
+          {
+            "ixp_id": 1406,
+            "vlan_list": [
+              {
+                "vlan_id": 1,
+                "ipv4": {
+                  "address": "201.218.156.0/24"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "asnum": 269857,
+        "member_type": "peering",
+        "name": "FiberDigital",
+        "peering_policy": "Open",
+        "connection_list": [
+          {
+            "ixp_id": 1406,
+            "vlan_list": [
+              {
+                "vlan_id": 1,
+                "ipv4": {
+                  "address": "45.189.118.0/24"
+                },
+                "ipv6": {
+                  "address": "2803:50e0::/32"
+                }
+              },
+              {
+                "vlan_id": 2,
+                "ipv6": {
+                  "address": "2803:9510::/32"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "asnum": 269898,
+        "member_type": "peering",
+        "name": "Speed Max",
+        "peering_policy": "Open",
+        "connection_list": [
+          {
+            "ixp_id": 1406,
+            "vlan_list": [
+              {
+                "vlan_id": 1,
+                "ipv4": {
+                  "address": "38.43.108.0/24"
+                }
+              },
+              {
+                "vlan_id": 2,
+                "ipv4": {
+                  "address": "38.43.109.0/24"
+                }
+              },
+              {
+                "vlan_id": 3,
+                "ipv4": {
+                  "address": "38.43.110.0/24"
+                }
+              },
+              {
+                "vlan_id": 4,
+                "ipv4": {
+                  "address": "38.56.212.0/24"
+                }
+              },
+              {
+                "vlan_id": 5,
+                "ipv4": {
+                  "address": "45.171.164.0/24"
+                }
+              },
+              {
+                "vlan_id": 6,
+                "ipv4": {
+                  "address": "45.171.165.0/24"
+                }
+              },
+              {
+                "vlan_id": 7,
+                "ipv4": {
+                  "address": "45.183.106.0/24"
+                }
+              },
+              {
+                "vlan_id": 8,
+                "ipv4": {
+                  "address": "45.190.170.0/24"
+                }
+              },
+              {
+                "vlan_id": 9,
+                "ipv4": {
+                  "address": "45.191.196.0/24"
+                }
+              },
+              {
+                "vlan_id": 10,
+                "ipv4": {
+                  "address": "45.191.197.0/24"
+                }
+              },
+              {
+                "vlan_id": 11,
+                "ipv4": {
+                  "address": "45.191.198.0/24"
+                }
+              },
+              {
+                "vlan_id": 12,
+                "ipv4": {
+                  "address": "45.191.199.0/24"
+                },
+                "ipv6": {
+                  "address": "2803:34e0::/32"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "asnum": 3132,
+        "member_type": "peering",
+        "name": "RCP",
+        "peering_policy": "Open",
+        "connection_list": [
+          {
+            "ixp_id": 1406,
+            "vlan_list": [
+              {
+                "vlan_id": 1,
+                "ipv4": {
+                  "address": "161.132.0.0/16"
+                }
+              },
+              {
+                "vlan_id": 2,
+                "ipv4": {
+                  "address": "209.45.0.0/17"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  
 
                     }
                   }
